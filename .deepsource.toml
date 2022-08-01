@@ -52,3 +52,4 @@ enabled = true
 
   [analyzers.meta]
   import_root = "github.com/kube-tarian/quality-trace"
+  dependencies_vendored = true
