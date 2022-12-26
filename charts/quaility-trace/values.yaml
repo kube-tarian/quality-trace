@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/tariandev_intelops/quaility-trace
+  repository: ghcr.io/kube-tarian/quaility-trace/server
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
