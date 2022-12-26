@@ -1,0 +1,21 @@
+name: POST New Book
+trigger:
+  type: http
+  httpRequest:
+    url: localhost:8090
+    route: /books
+    method: POST
+    contentType: application/json
+    body: '{ "title": "foo", "author": "bar"}'
+specs:
+  - name: Assert that status code is 200
+    selectors:  
+      serviceName: goApp
+      httpMethod: POST
+      httpRoute: /books
+      httpHost: localhost:8090
+    assertions:
+      responseStatusCode: 200
+    maxRetries: 3
+    retryInterval: 4
+  
