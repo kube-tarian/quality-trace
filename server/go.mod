@@ -1,4 +1,4 @@
-module github.com/kube-tarian/quality-trace
+module github.com/kube-tarian/quality-trace/server
 
 go 1.19
 
