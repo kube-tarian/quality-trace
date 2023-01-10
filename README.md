@@ -20,3 +20,4 @@ helm repo update
 
 helm upgrade -i quality-trace quality-trace/quality-trace -n quality-trace
 ```
+
