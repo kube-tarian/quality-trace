@@ -5,13 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/kube-tarian/quaility-trace/server
+  repository: ghcr.io/kube-tarian/quality-trace/quality-trace
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets:
-  - name: regcred
+imagePullSecrets: []
 
 nameOverride: ""
 fullnameOverride: ""
