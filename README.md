@@ -15,7 +15,7 @@ kubectl create namespace quality-trace
 
 #### Installation
 ```bash
-helm repo add quality-trace https://github.com/kube-tarian/quality-trace
+helm repo add quality-trace https://kube-tarian.github.io/quality-trace
 helm repo update
 
 helm upgrade -i quality-trace quality-trace/quality-trace -n quality-trace
