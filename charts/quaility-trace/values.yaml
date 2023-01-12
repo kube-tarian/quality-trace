@@ -81,3 +81,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+clickhouse:
+  url: http://localhost:9000
+  username: admin
+  password: admin
