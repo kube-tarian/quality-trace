@@ -39,7 +39,7 @@ spec:
               protocol: TCP
           volumeMounts:
           - name: "{{ include "quaility-trace.fullname" . }}-config"
-            mountPath: "/server/config.yaml"
+            mountPath: "/config.yaml"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
