@@ -37,9 +37,16 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          volumeMounts:
+          - name: "{{ include "quaility-trace.fullname" . }}-config"
+            mountPath: "/config.yaml"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
+      volumes:
+      - name: {{ include "quaility-trace.fullname" . }}-config
+        configMap:
+          name: {{ include "quaility-trace.fullname" . }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
