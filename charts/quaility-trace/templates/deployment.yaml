@@ -40,6 +40,7 @@ spec:
           volumeMounts:
           - name: {{ include "quaility-trace.fullname" . }}-config
             mountPath: "/config.yaml"
+            subPath: file-from-cfgmap
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
