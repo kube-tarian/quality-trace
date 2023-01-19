@@ -5,5 +5,5 @@ metadata:
   labels:
     {{- include "quaility-trace.labels" . | nindent 4 }}
 data:
-  file-from-cfgmap: |
+  config.yaml: |
     clickhouseConnUrl: {{ .Values.clickhouse.url }}?username={{ .Values.clickhouse.username }}&password={{ .Values.clickhouse.password }}
