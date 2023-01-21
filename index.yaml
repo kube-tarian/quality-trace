@@ -1,46 +1,5 @@
 apiVersion: v1
 entries:
-  quaility-trace:
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2023-01-19T06:51:24.505514798Z"
-    description: A Helm chart for Quaility Trace
-    digest: 24bb52a53cc1e3c3296ecf831a8783ad8382562f48adf20ae46f3516d74b23e2
-    name: quaility-trace
-    type: application
-    urls:
-    - https://github.com/kube-tarian/quality-trace/releases/download/quaility-trace-0.1.3/quaility-trace-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2023-01-17T21:46:10.816984492Z"
-    description: A Helm chart for Quaility Trace
-    digest: 1d4f42d016a2cd1abb09b1e895780c344b4a2f8e7df9cd82b0bc8e541e8ef4f9
-    name: quaility-trace
-    type: application
-    urls:
-    - https://github.com/kube-tarian/quality-trace/releases/download/quaility-trace-0.1.2/quaility-trace-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2023-01-16T18:53:15.689767657Z"
-    description: A Helm chart for Quaility Trace
-    digest: f7d7d1116787213c0874ca1e0db214151baec0138c49e72bebf2dc3e087e9cc2
-    name: quaility-trace
-    type: application
-    urls:
-    - https://github.com/kube-tarian/quality-trace/releases/download/quaility-trace-0.1.1/quaility-trace-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2023-01-10T19:09:42.497720367Z"
-    description: A Helm chart for Quaility Trace
-    digest: ca5e950b97b138a0f62b1630561d1963aadd4e76cc0a3e0dcf3c946ec2e4eb09
-    name: quaility-trace
-    type: application
-    urls:
-    - https://github.com/kube-tarian/quality-trace/releases/download/quaility-trace-0.1.0/quaility-trace-0.1.0.tgz
-    version: 0.1.0
   quality-trace:
   - apiVersion: v2
     appVersion: 0.1.0
