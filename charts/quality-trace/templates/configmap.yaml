@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "quaility-trace.fullname" . }}
+  name: {{ include "quality-trace.fullname" . }}
   labels:
-    {{- include "quaility-trace.labels" . | nindent 4 }}
+    {{- include "quality-trace.labels" . | nindent 4 }}
 data:
   clickhouseConnUrl: {{ .Values.clickhouse.url }}?username={{ .Values.clickhouse.username }}&password={{ .Values.clickhouse.password }}

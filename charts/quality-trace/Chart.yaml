@@ -1,5 +1,5 @@
 apiVersion: v2
-name: quaility-trace
+name: quality-trace
 description: A Helm chart for Quaility Trace
 
 # A chart can be either an 'application' or a 'library' chart.

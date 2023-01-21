@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "quaility-trace.fullname" . }}
+  name: {{ include "quality-trace.fullname" . }}
   labels:
-    {{- include "quaility-trace.labels" . | nindent 4 }}
+    {{- include "quality-trace.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "quaility-trace.selectorLabels" . | nindent 6 }}
+      {{- include "quality-trace.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "quaility-trace.selectorLabels" . | nindent 8 }}
+        {{- include "quality-trace.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "quaility-trace.serviceAccountName" . }}
+      serviceAccountName: {{ include "quality-trace.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -38,14 +38,14 @@ spec:
               containerPort: 8080
               protocol: TCP
           volumeMounts:
-          - name: {{ include "quaility-trace.fullname" . }}-config
+          - name: {{ include "quality-trace.fullname" . }}-config
             mountPath: "/config.yaml"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      - name: {{ include "quaility-trace.fullname" . }}-config
+      - name: {{ include "quality-trace.fullname" . }}-config
         configMap:
-          name: {{ include "quaility-trace.fullname" . }}
+          name: {{ include "quality-trace.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
