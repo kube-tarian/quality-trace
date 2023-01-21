@@ -5,4 +5,5 @@ metadata:
   labels:
     {{- include "quality-trace.labels" . | nindent 4 }}
 data:
-  clickhouseConnUrl: {{ .Values.clickhouse.url }}?username={{ .Values.clickhouse.username }}&password={{ .Values.clickhouse.password }}
+  config.yaml: |
+    clickhouseConnUrl: {{ .Values.clickhouse.url }}?username={{ .Values.clickhouse.username }}&password={{ .Values.clickhouse.password }}
