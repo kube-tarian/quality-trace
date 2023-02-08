@@ -16,7 +16,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ sheril5/quality-trace }}
+  IMAGE_NAME: sheril5/quality-trace 
   MAJOR: 1
   MINOR: 2
 
