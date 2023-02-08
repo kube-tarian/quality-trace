@@ -16,7 +16,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }} 
+  IMAGE_NAME: sheril5/quality-trace
   MAJOR: 1
   MINOR: 2
 
@@ -34,7 +34,6 @@ jobs:
       run: |
         docker login ${{ env.REGISTRY }} -u jebinjeb -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}
-        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
       if: github.event_name == 'push'
     -
       name: Update Minor version
