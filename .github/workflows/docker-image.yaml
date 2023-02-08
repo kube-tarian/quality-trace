@@ -33,8 +33,8 @@ jobs:
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u jebinjeb -p ${{ secrets.GITHUB_TOKEN }}
-        IMAGE_NAME=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
       if: github.event_name == 'push'
     -
       name: Update Minor version
