@@ -17,8 +17,9 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: sheril5/quality-trace
-  MAJOR: 1
-  MINOR: 2
+  MAJOR: 0
+  MINOR: 1
+  PATCH: 1
 
 jobs:
 
@@ -29,20 +30,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}
+      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
-        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
     -
       name: Update minor
       run: | 
-        echo "env.MINOR=$((${{ env.MINOR }}+1))" 
-    -
-      name: Update minor
-      run: | 
-        echo "env.MINOR=$((${{ env.MINOR }}+1))" 
+        echo "env.PATCH=$((${{ env.PATCH }}+1))" 
     
     
         
