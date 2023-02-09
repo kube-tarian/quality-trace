@@ -39,7 +39,7 @@ jobs:
     -
       name: Update minor
       run: | 
-        echo "env.PATCH=$((${{ env.PATCH }}+1))" 
+        env.PATCH=$((${{ env.PATCH }}+1))
     
     
         
