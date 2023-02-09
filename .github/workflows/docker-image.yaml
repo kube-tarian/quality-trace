@@ -38,7 +38,11 @@ jobs:
     -
       name: Update minor
       run: | 
-        echo "MINOR=$((${{ env.MINOR }}+1))" >> $MINOR``` 
+        echo "env.MINOR=$((${{ env.MINOR }}+1))" 
+    -
+      name: Update minor
+      run: | 
+        echo "env.MINOR=$((${{ env.MINOR }}+1))" 
     
     
         
