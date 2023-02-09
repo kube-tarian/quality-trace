@@ -39,5 +39,6 @@ jobs:
       name: Update minor
       run: | 
         echo "MINOR=$((${{ env.MINOR }}+1))" 
-
+        repository: ${{ env.IMAGE_NAME }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
