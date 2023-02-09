@@ -36,11 +36,11 @@ jobs:
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}
       if: github.event_name == 'push'
     -
-      name: Build and push
-      uses: docker/build-push-action@v4
+      name: Update Minor version
+      uses: hmanzur/actions-set-secret@v2.0.0
       with:
-        context: .
-        push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        name: 'MINOR'
+        value: $((${{ env.MINOR }}+1))
+        repository: ${{ env.IMAGE_NAME }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
