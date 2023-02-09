@@ -6,5 +6,6 @@ RUN cd /app/server/ && go mod download && CGO_ENABLED=0 GOOS=linux go build -a -
 
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
+CMD "1"
 COPY --from=builder /app/sample/test-descriptor.yaml /app/server/quality-trace ./
 CMD [ "/quality-trace" ]
