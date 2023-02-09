@@ -36,10 +36,16 @@ jobs:
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
-    -
-      name: Update minor
-      run: | 
-        echo "env.PATCH=$((${{ env.PATCH }}+1))"
+    - name: Auto Increment Semver Action
+      uses: MCKanpolat/auto-semver-action@1.0.5
+      id: versioning
+      with:
+        releaseType: patch 
+        incrementPerCommit: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Next Release Number
+      run: echo ${{ steps.versioning.outputs.version }}
     
     
         
