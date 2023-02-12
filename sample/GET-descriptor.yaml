@@ -13,7 +13,7 @@ specs:
       serviceName: goApp
       httpMethod: GET
       httpRoute: /books
-      httpHost: localhost:8090
+      httpHost: sampleapp.quality.svc.cluster.local:8090
     assertions:
       responseStatusCode: 200
     maxRetries: 3

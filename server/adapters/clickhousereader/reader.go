@@ -104,6 +104,33 @@ func (r *ClickHouseReader) ClearTracesTable(ctx context.Context) error {
 	return nil
 }
 
+func (r *ClickHouseReader) Searchtrace(ctx context.Context, trace string) (*[]model.SearchSpansResult, error) {
+	var searchScanReponses []model.SearchSpanDBReponseItem
+	whereClause := "where " +
+		addCondition("traceID", trace, false)
+	query := fmt.Sprintf("SELECT * FROM %s.%s %s", r.traceDB, signozSpansTable, whereClause)
+	fmt.Println("query: ", query)
+	err := r.db.Select(ctx, &searchScanReponses, query)
+	if err != nil {
+		return nil, fmt.Errorf("error in processing sql query: %v", err)
+	}
+	searchSpansResult := []model.SearchSpansResult{{
+		Columns: []string{"__time", "SpanId", "TraceId", "ServiceName", "Name", "Kind", "DurationNano", "TagsKeys", "TagsValues", "References", "Events", "HasError"},
+		Events:  make([][]interface{}, len(searchScanReponses)),
+	},
+	}
+	for i, item := range searchScanReponses {
+		var jsonItem model.SearchSpanReponseItem
+		json.Unmarshal([]byte(item.Model), &jsonItem)
+		jsonItem.TimeUnixNano = uint64(item.Timestamp.UnixNano() / 1000000)
+		spanEvents := jsonItem.GetValues()
+		searchSpansResult[0].Events[i] = spanEvents
+	}
+
+	return &searchSpansResult, nil
+
+}
+
 func (r *ClickHouseReader) ListTraces(ctx context.Context) (*[]model.SearchSpansResult, error) {
 	var searchScanReponses []model.SearchSpanDBReponseItem
 	query := fmt.Sprintf("SELECT * FROM %s.%s", r.traceDB, signozSpansTable)
@@ -142,6 +169,17 @@ func addCondition(varName, varValue string, includeAND bool) string {
 		return fmt.Sprintf(`%s(%s='%s')`, andPrefix, varName, varValue)
 	}
 	return ""
+}
+func (r *ClickHouseReader) GetTrace(ctx context.Context) (*[]model.GetTracesDBResponse, error) {
+	var getResponses []model.GetTracesDBResponse
+	query := fmt.Sprintf("select traceID, spanID, serviceName, name, httpMethod, httpCode, httpRoute, httpHost, responseStatusCode from signoz_traces.signoz_index_v2")
+	// fmt.Println("query: ", query)
+	err := r.db.Select(ctx, &getResponses, query)
+	if err != nil {
+		return nil, fmt.Errorf("error in processing sql query: %v", err)
+	}
+
+	return &getResponses, nil
 }
 
 func (r *ClickHouseReader) GetTraces(ctx context.Context, selectors model.Selector) (*[]model.GetTracesDBResponse, error) {

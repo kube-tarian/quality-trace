@@ -2,7 +2,7 @@ name: POST New Book
 trigger:
   type: http
   httpRequest:
-    url: sampleapp.quality.svc.cluster.local:8090
+    url: sample.dev.app
     route: /books
     method: POST
     contentType: application/json
@@ -10,12 +10,17 @@ trigger:
 specs:
   - name: Assert that status code is 200
     selectors:  
-      serviceName: goApp
+      serviceName: goapp
       httpMethod: POST
       httpRoute: /books
-      httpHost: sampleapp.quality.svc.cluster.local:8090
+      httpHost: sample.dev.app
     assertions:
       responseStatusCode: 200
+      httpMethod: POST
+      httpRoute: /books 
+      httpHost: sample.dev.app
+      serviceName: goapp
+      name: gorm.Create
     maxRetries: 3
     retryInterval: 4
   

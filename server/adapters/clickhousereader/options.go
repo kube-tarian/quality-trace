@@ -2,6 +2,7 @@ package clickhousereader
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/url"
 	"time"
@@ -63,10 +64,13 @@ func defaultConnector(cfg *namespaceConfig) (clickhouse.Conn, error) {
 	options := &clickhouse.Options{
 		Addr: []string{dsnURL.Host},
 	}
+	if dsnURL.Query().Get("username") == "" || dsnURL.Query().Get("password") == "" {
+		return nil, errors.New("url query has credentials missing")
+	}
 	if dsnURL.Query().Get("username") != "" {
 		auth := clickhouse.Auth{
-			Username: "admin",
-			Password: "admin",
+			Username: dsnURL.Query().Get("username"),
+			Password: dsnURL.Query().Get("password"),
 		}
 		options.Auth = auth
 	}
