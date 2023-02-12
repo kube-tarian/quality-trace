@@ -50,6 +50,12 @@ type Selector struct {
 }
 
 // select serviceName, name, httpMethod, httpCode, httpRoute, httpHost, responseStatusCode from signoz_traces.signoz_index_v2;
+// type Assertion struct {
+// 	Body               string `yaml:"bodyContains" json:"bodyContains"`
+// 	ResponseStatusCode string `yaml:"responseStatusCode" json:"responseStatusCode"`
+// 	HttpMethod string `yaml:"httpMethod" json:"httpMethod"`
+// }
+// select serviceName, name, httpMethod, httpCode, httpRoute, httpHost, responseStatusCode from signoz_traces.signoz_index_v2;
 type Assertion struct {
 	Body               string `yaml:"bodyContains" json:"bodyContains"`
 	ResponseStatusCode string `yaml:"responseStatusCode" json:"responseStatusCode"`
@@ -58,10 +64,4 @@ type Assertion struct {
 	HttpHost           string `yaml:"httpHost" json:"httpHost"`
 	ServiceName        string `yaml:"serviceName" json:"serviceName"`
 	Name               string `yaml:"name" json:"name"`
-}
-
-// Result of assertions
-type Result struct {
-	Name string `json:"AssertionName"`
-	Pass string `json:"result"`
 }

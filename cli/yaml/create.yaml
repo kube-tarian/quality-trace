@@ -1,0 +1,9 @@
+name: POST New Book
+trigger:
+  type: http
+  httpRequest:
+    url: sample.dev.app
+    route: /books
+    method: POST
+    contentType: application/json
+    body: '{ "title": "foo", "author": "bar"}'

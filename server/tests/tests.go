@@ -44,20 +44,60 @@ func (h TestHandler) GetTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h TestHandler) CreateTest(w http.ResponseWriter, r *http.Request) {
+
 	var testBody *model.Test
 	json.NewDecoder(r.Body).Decode(&testBody)
 
 	index := len(h.Tests) + 1
 	testBody.Id = index
-	testBody.Status = "Not Run"
-
+	testBody.Status = "Dry Run Running"
 	h.Tests[index] = testBody
 
-	w.Header().Set("Content-Type", "application/json")
-	err := json.NewEncoder(w).Encode(&testBody)
+	data := make(chan string)
+	go func() {
+		ctx := context.Background()
+		err := h.Reader.ClearTracesTable(ctx)
+		if err != nil {
+			fmt.Println("Err: ", err)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		// Trigger API
+		resp, err := rest.SendQuery(testBody.Trigger.HttpRequest)
+		if err != nil {
+			fmt.Println("Error while querying endpoint:", err)
+			os.Exit(1)
+		}
+		fmt.Println("Resp:", string(resp))
+		for {
+			var traceId string
+			traces, err := h.Reader.GetTrace(ctx)
+			if err != nil {
+				fmt.Println("Error while querying for traces:", err)
+				os.Exit(1)
+			}
+
+			for _, trace := range *traces {
+				if trace.TraceID != "" {
+					traceId = trace.TraceID
+				}
+			}
+			if traceId != "" {
+				data <- traceId
+				break
+			}
+			time.Sleep((1 * time.Second))
+		}
+	}()
+	msg1 := <-data
+	fmt.Println(msg1)
+	resp, err := h.Reader.Searchtrace(context.Background(), msg1)
 	if err != nil {
-		fmt.Println("There was an error encoding the initialized struct")
+		fmt.Println("unable to search trace", err)
 	}
+	_ = json.NewEncoder(w).Encode(resp)
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -65,6 +105,8 @@ func (h TestHandler) DeleteTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h TestHandler) RunTest(w http.ResponseWriter, r *http.Request) {
+	var testBody *model.Test
+	json.NewDecoder(r.Body).Decode(&testBody)
 	params := mux.Vars(r)
 	id := params["id"]
 	fmt.Println(id)
@@ -75,14 +117,9 @@ func (h TestHandler) RunTest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	testDescriptor := h.Tests[index]
-	testDescriptor.Status = "Running"
-
+	testBody.Id = index
+	data := make(chan string)
 	go func() {
-
-		testStatus := map[bool]string{true: "Success!", false: "Failure!"}
-
 		ctx := context.Background()
 		err = h.Reader.ClearTracesTable(ctx)
 		if err != nil {
@@ -91,58 +128,52 @@ func (h TestHandler) RunTest(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-
 		// Trigger API
-		resp, err := rest.SendQuery(testDescriptor.Trigger.HttpRequest)
+		resp, err := rest.SendQuery(testBody.Trigger.HttpRequest)
 		if err != nil {
 			fmt.Println("Error while querying endpoint:", err)
 			os.Exit(1)
 		}
 		fmt.Println("Resp:", string(resp))
+		for {
+			var traceId string
+			traces, err := h.Reader.GetTrace(ctx)
+			if err != nil {
+				fmt.Println("Error while querying for traces:", err)
+				os.Exit(1)
+			}
 
-		// Wait for traces to be generated
-		time.Sleep(2 * time.Second)
-
-		runSuccess := false
-
-		//  Run Assertions
-		for _, spec := range testDescriptor.Specs {
-			// For each test specification, we need to retry the assertions in case the traces are not yet populated in clickhouse.
-			// How many times to retry is configurable in the test descriptor.
-			for i := -1; i < spec.MaxRetries; i++ {
-				fmt.Fprintf(w, "Running assertion: %v\n", spec.Name)
-
-				// Step 5: Get the traces
-				res, err := h.Reader.GetTraces(h.Ctx, spec.Selectors)
-				fmt.Fprintf(w, "Trace: %v\n", res)
-				//	fmt.Println("Trace Status is :",trace.ResponseStatusCode)
-				if err != nil {
-					fmt.Fprintf(w, "Error while retrieving traces: %v\n", err)
-					os.Exit(1)
-				}
-				// fmt.Printf("Result: %v", res)
-
-				// Perform assertions
-				isSuccess, match, err := assertions.RunAssertions(res, spec.Assertions)
-				if err != nil {
-					fmt.Fprintf(w, "Error during assertions: %v\n", err)
-					os.Exit(1)
-				}
-
-				fmt.Println("\n\nTest Status:", testStatus[isSuccess])
-				if isSuccess {
-					runSuccess = true
-					fmt.Printf("Found trace %v with passing assertions.\n", match.TraceID)
-					break
-				} else if i+1 < spec.MaxRetries {
-					fmt.Printf("\n\nRetrying in %v seconds...\n", spec.RetryInterval)
-					time.Sleep(time.Duration(spec.RetryInterval) * time.Second)
+			for _, trace := range *traces {
+				if trace.TraceID != "" {
+					traceId = trace.TraceID
 				}
 			}
+			if traceId != "" {
+				data <- traceId
+				break
+			}
+			time.Sleep((1 * time.Second))
 		}
-
-		testDescriptor.Status = testStatus[runSuccess]
 	}()
+
+	<-data
+	//  Run Assertions
+	for _, spec := range testBody.Specs {
+		// Step 5: Get the traces
+		res, err := h.Reader.GetTraces(h.Ctx, spec.Selectors)
+		if err != nil {
+			fmt.Fprintf(w, "Error while retrieving traces: %v\n", err)
+			os.Exit(1)
+		}
+		// Perform assertions
+		assertRess := assertions.RunAssertions(res, spec.Assertions)
+		err = json.NewEncoder(w).Encode(assertRess)
+		if err != nil {
+			fmt.Println("error while encoding assertres", err)
+		}
+	}
+
+	testBody.Status = "Success"
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
