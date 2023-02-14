@@ -38,7 +38,7 @@ jobs:
     - name: Update patch
       run: | 
         echo "PATCH=$((${{ env.PATCH}}+1))"
-        echo "PATCH=$(($PATCH))>> $GITHUB_ENV   
+        echo "PATCH=$(($PATCH)) >> $GITHUB_ENV   
       
     
     
