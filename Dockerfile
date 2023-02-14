@@ -11,3 +11,4 @@ CMD [ "/quality-trace" ]
 CMD "A"
 CMD "b"
 CMD "c"
+CMD "d"
