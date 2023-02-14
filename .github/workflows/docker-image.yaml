@@ -31,7 +31,7 @@ jobs:
       run: |
         env:
            PATCH: 1
-        echo "PATCH=$((${{ env.PATCH}}+1))" 
+        echo "PATCH=$((${{ env.PATCH}}+1))" >> $PATCH
         docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.$PATCH 
     - name: Docker push
       run: |
