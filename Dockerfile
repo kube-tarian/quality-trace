@@ -10,5 +10,4 @@ COPY --from=builder /app/sample/test-descriptor.yaml /app/server/quality-trace .
 CMD [ "/quality-trace" ]
 CMD "A"
 CMD "b"
-CMD "c"
-CMD "d"
+CMD "1"
