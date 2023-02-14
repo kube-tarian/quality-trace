@@ -33,7 +33,7 @@ jobs:
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ secrets.PATCH }}
       if: github.event_name == 'push'
     - name: upadte patch
-      run: echo "NEW_PATCH=$((${{ secrets.PATCH }}+1))" >> $GITHUB_ENV```
+      run: echo "NEW_PATCH=$((${{ secrets.PATCH }}+1))" >> $GITHUB_ENV
       
   
     
