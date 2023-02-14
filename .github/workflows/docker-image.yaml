@@ -28,10 +28,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Update patch
-      run: | 
-        env:
-          env.PATCH= $((${{ env.PATCH }}+1))   
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
@@ -39,5 +35,9 @@ jobs:
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
+    - name: Update patch
+      run: | 
+        env:
+          env.PATCH= $((${{ env.PATCH }}+1))   
              
     
