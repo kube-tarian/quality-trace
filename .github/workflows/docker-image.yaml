@@ -19,7 +19,6 @@ env:
   IMAGE_NAME: sheril5/quality-trace
   MAJOR: 0
   MINOR: 1
-  PATCH: 1
 jobs:
 
   build:
@@ -30,6 +29,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
+        env:
+           PATCH: 1
         echo "PATCH=$((${{ env.PATCH}}+1))" 
         docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.$PATCH 
     - name: Docker push
