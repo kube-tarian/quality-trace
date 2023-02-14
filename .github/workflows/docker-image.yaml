@@ -17,6 +17,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: sheril5/quality-trace
+  PATCH: $((${{ secrets.PATCH }}+1)) 
 jobs:
 
   build:
@@ -26,9 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: | 
-        echo "PATCH=$((${{ secrets.PATCH }}+1))" >> $GITHUB_ENV
-        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ env.PATCH }}
+      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ env.PATCH }}
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
