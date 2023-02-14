@@ -35,8 +35,11 @@ jobs:
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
-      run: echo "PATCH=$((${{ env.PATCH}}+1))" >> $GITHUB_ENV 
-        
+    - name: Update patch
+      run: | 
+        echo "PATCH=$((${{ env.PATCH}}+1))"
+        echo "PATCH=$(($PATCH))>> $GITHUB_ENV   
+      
     
     
              
