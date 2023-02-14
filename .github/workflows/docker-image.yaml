@@ -19,16 +19,13 @@ env:
   IMAGE_NAME: sheril5/quality-trace
   MAJOR: 0
   MINOR: 1
-  PATCH: 1
+  nPATCH: 1
+  PATCH: $((${{ env.nPATCH}}+1))
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-    name: Update patch
-      run: | 
-        echo "PATCH=$((${{ env.PATCH}}+1))" 
-        echo "PATCH" >> $GITHUB_ENV
 
     steps:
     - uses: actions/checkout@v2
@@ -39,6 +36,9 @@ jobs:
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
+    - name: Update patch
+      run: | 
+        echo "$((${{ env.PATCH}}))" >> $GITHUB_ENV 
     
       
     
