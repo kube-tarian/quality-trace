@@ -20,7 +20,7 @@ env:
   MAJOR: 0
   MINOR: 1
   nPATCH: 1
-  PATCH: ${{ env.nPATCH}}+1
+  PATCH: 1
 jobs:
 
   build:
@@ -30,15 +30,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+      run: |
+        echo "PATCH=$((${{ env.PATCH}}+1))" >> $GITHUB_ENV 
+        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
-    - name: Update patch
-      run: | 
-        echo "${{ env.PATCH}}" >> $GITHUB_ENV 
+  
     
       
     
