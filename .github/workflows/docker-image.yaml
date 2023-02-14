@@ -20,7 +20,7 @@ env:
   MAJOR: 0
   MINOR: 1
   nPATCH: 1
-  PATCH: $((${{ env.nPATCH}}+1))
+  PATCH: ${{ env.nPATCH}}+1
 jobs:
 
   build:
@@ -38,7 +38,7 @@ jobs:
       if: github.event_name == 'push'
     - name: Update patch
       run: | 
-        echo "$((${{ env.PATCH}}))" >> $GITHUB_ENV 
+        echo "${{ env.PATCH}}" >> $GITHUB_ENV 
     
       
     
