@@ -31,7 +31,7 @@ jobs:
     - name: Update patch
       run: | 
         env:
-          NPATCH=${{ env.PATCH }}+1       
+          NPATCH= $((${{ env.PATCH }}+1))   
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.NPATCH }}
     - name: Docker push
