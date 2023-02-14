@@ -26,18 +26,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: |
-        env:
-           MAJOR: 1
-           MINOR: 0
-           PATCH: 0
-        echo "PATCH=$((${{ env.PATCH}}++))" >> $GITHUB_ENV 
-        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ secrets.PATCH }}
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
+    - name: upadte patch
+      run: echo "NEW_PATCH=$((${{ secrets.PATCH }}+1))" >> $GITHUB_ENV```
       
   
     
