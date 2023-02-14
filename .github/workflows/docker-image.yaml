@@ -31,6 +31,8 @@ jobs:
     - name: Build the Docker image
       run: |
         echo "PATCH=$((${{ env.PATCH }}+1))" >> $GITHUB_ENV
+        env:
+           PATCH: ${{ $GITHUB_ENV }}
         docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ PATCH }}
     - name: Docker push
       run: |
