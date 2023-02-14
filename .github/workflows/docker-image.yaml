@@ -37,7 +37,6 @@ jobs:
       if: github.event_name == 'push'
     - name: Update patch
       run: | 
-        env:
-          env.PATCH= $((${{ env.PATCH }}+1))   
+        echo "env.PATCH= $((${{ env.PATCH }}+1))"   
              
     
