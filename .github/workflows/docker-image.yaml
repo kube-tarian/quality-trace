@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
-       echo "NEW_PATCH=$((${{ secrets.PATCH }}+1))" >> $GITHUB_ENV
+       echo "PATCH=$((${{ secrets.PATCH }}+1))" >> $GITHUB_ENV
        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ secrets.PATCH }}
     - name: Docker push
       run: |
