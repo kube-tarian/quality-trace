@@ -26,19 +26,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ secrets.PATCH }}
+      run: | 
+        echo "secrets.PATCH=$((${{ secrets.PATCH }}++))"
+        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ secrets.PATCH }}
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ secrets.MAJOR }}.${{ secrets.MINOR }}.${{ secrets.PATCH }}
       if: github.event_name == 'push'
-    - name: Update patch version
-      uses: hmanzur/actions-set-secret@v2.0.0
-      with:
-        name: 'MINOR'
-        value: $((${{ secrets.PATCH }}+1))
-        repository: EriksonGM/MasterReport
-        token: ${{ secrets.GITHUB_TOKEN }}
+    
     
       
   
