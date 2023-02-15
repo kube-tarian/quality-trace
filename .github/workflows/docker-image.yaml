@@ -18,7 +18,7 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: sheril5/quality-trace
   MAJOR: 1
-  MINOR: 2
+  MINOR: 0
 jobs:
 
   build:
@@ -29,7 +29,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
-         echo "PATCH=$((${{ env.PATCH }}+1))"
+         echo "PATCH=0" >> $GITHUB_ENV
+         echo "PATCH+=$((PATCH))" >> $GITHUB_ENV
          docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
       run: |
