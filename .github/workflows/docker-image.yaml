@@ -1,4 +1,7 @@
-name: Docker Image CI
+on: [push]
+
+jobs:
+      name: Docker Image CI
 
 on:
   push:
@@ -19,7 +22,6 @@ env:
   IMAGE_NAME: sheril5/quality-trace
   MAJOR: 1
   MINOR: 0
-  PATCH: 0
 jobs:
 
   build:
@@ -29,31 +31,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+      run: |
+         echo "PATCH+=$((0))" >> $GITHUB_ENV
+         docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
       run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
-    - name: Auto Increment Semver Action
-      uses: MCKanpolat/auto-semver-action@1.0.5
-      id: versioning
+    - name: Increment Step Patch
+      id: increment-semver-patch
+      uses: Benbentwo/increment-semver@master
       with:
-        releaseType: patch 
-        incrementPerCommit: false
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Next Release Number
-      run: echo ${{ steps.versioning.outputs.version }}
-    
-        
-    
-    
-      
-  
-    
-      
-    
-    
-             
-    
+        version-level: '-p'
+    - name: Get the output version
+      run: echo "The new patch version was ${{ steps.increment-semver-patch.outputs.version }}"
+          
