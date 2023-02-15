@@ -31,7 +31,7 @@ jobs:
       if: env.MAJOR !=0
       run: |
         PATCH=1
-        echo PATCH = $((PATCH++)) >> $GITHUB_ENV
+        echo PATCH = ${{$((++PATCH))}} >> $GITHUB_ENV
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
