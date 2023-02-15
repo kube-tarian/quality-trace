@@ -19,7 +19,6 @@ env:
   IMAGE_NAME: sheril5/quality-trace
   MAJOR: 1
   MINOR: 0
-  PATCH: 1
 jobs:
 
   build:
@@ -29,8 +28,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: update patch
+      if: env.MAJOR !=0
       run: |
-         echo "PATCH=$((${{ env.PATCH }}+1))" >> $GITHUB_ENV
+        PATCH=1
+        while true; do
+        if [[ "$PATCH" -gt 3 ]]; then
+           exit 1 
+        fi
+        echo PATCH = $PATCH
+        ((PATCH++))
+        done
+        echo "PATCH = $PATCH" >> $GITHUB_ENV
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
