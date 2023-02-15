@@ -1,48 +1,40 @@
-name: ci
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - 'main'
-    tags:
-      - 'v*'
+    paths-ignore:
+      - 'charts/**'
+      - '**.md'
+    branches: [ main ]
   pull_request:
-    branches:
-      - 'main'
+    paths-ignore:
+      - 'helm/**'
+      - '**.md'
+    branches: [ main ]
+
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: sheril5/quality-trace
-
+  MAJOR: 1
+  MINOR: 0
 jobs:
-  docker:
+
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            name/app
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-      -
-        name: Login to DockerHub
-        if: github.event_name == 'push'
-        run: docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+         env:
+           PATCH: 0
+         echo "PATCH=$((${{ env.PATCH }}+1))" >> $GITHUB_ENV 
+         docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+    - name: Docker push
+      run: |
+        docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+      if: github.event_name == 'push'
