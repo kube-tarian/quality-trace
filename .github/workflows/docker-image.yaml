@@ -32,7 +32,7 @@ jobs:
       run: |
        docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
        echo "NEW_PATCH=$((${{ env.PATCH }}+1))" >> $GITHUB_ENV
-       docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.NEW_PATCH}}
+       docker build --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.NEW_PATCH}} .
     - name: Docker push
       run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.NEW_PATCH }}
       if: github.event_name == 'push'
