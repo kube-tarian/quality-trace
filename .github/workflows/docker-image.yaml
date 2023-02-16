@@ -28,9 +28,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: update patch
-      run: |
-        echo "env.PATCH=$((${{ env.PATCH }}+1))" 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
@@ -38,3 +35,13 @@ jobs:
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
+    - name: Autoincrement a new patch version
+      run: |
+         echo "NEW_PATCH_VERSION=$((${{ env.PATCH_VERSION }}+1))" >> $GITHUB_ENV
+    - name: Update patch version
+      uses: hmanzur/actions-set-secret@v2.0.0
+      with:
+        name: 'PATCH_VERSION'
+        value: ${{ env.NEW_PATCH_VERSION }}
+        repository: ${{ env.IMAGE_NAME }}
+        token: ${{ secrets.GITHUB_TOKEN }}
