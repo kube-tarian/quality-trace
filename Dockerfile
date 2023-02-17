@@ -9,7 +9,5 @@ WORKDIR /
 COPY --from=builder /app/sample/test-descriptor.yaml /app/server/quality-trace ./
 CMD [ "/quality-trace" ]
 CMD "S"
-CMD "d"
-CMD "LL"
-CMD "k"
-CMD "P"
+CMD "q"
+CMD "t"
