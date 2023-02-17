@@ -27,7 +27,7 @@ jobs:
           images: |
             name/app
           tags: |
-            type=ref,event=main
+            type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{1.0.1}}
             type=semver,pattern={{1}}.{{0}}
