@@ -1,16 +1,16 @@
-name: Docker Image CI
+name: ci
 
 on:
   push:
-    paths-ignore:
-      - 'charts/**'
-      - '**.md'
-    branches: [ main ]
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
   pull_request:
-    paths-ignore:
-      - 'helm/**'
-      - '**.md'
-    branches: [ main ]
+    branches:
+      - 'main'
+env:
+    IMAGE_NAME: sheril5/quality-trace
 
 jobs:
   docker:
@@ -18,45 +18,39 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+    
       -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
-          # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/sheril5/quality-trace
-          # generate Docker tags based on the following events/attributes
+            sheril5/quality-trace
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
-            type=semver,pattern={{version}}
+             type=semver,pattern={{1.0.1}}
+           
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-     
       -
         name: Login to GHCR
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ sheril5 }}
+          username: sheril5
           password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
-          tags: ghcr.io/sheril5/quality-trace:latest
-          
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      
