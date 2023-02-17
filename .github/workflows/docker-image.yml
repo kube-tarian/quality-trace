@@ -1,14 +1,16 @@
-name: ci
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - "main"
-    tags:
-      - "v*.*.*"
+    paths-ignore:
+      - 'charts/**'
+      - '**.md'
+    branches: [ main ]
   pull_request:
-    branches:
-      - "main"
+    paths-ignore:
+      - 'helm/**'
+      - '**.md'
+    branches: [ main ]
 
 jobs:
   docker:
@@ -16,7 +18,7 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       -
         name: Docker meta
         id: meta
@@ -24,7 +26,6 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            name/app
             ghcr.io/sheril5/quality-trace
           # generate Docker tags based on the following events/attributes
           tags: |
