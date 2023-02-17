@@ -1,41 +1,46 @@
-name: Docker Image CI
+name: ci
 
 on:
   push:
-    paths-ignore:
-      - 'charts/**'
-      - '**.md'
-    branches: [ main ]
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
   pull_request:
-    paths-ignore:
-      - 'helm/**'
-      - '**.md'
-    branches: [ main ]
+    branches:
+      - 'main'
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: sheril5/quality-trace
-  MAJOR: 1
-  MINOR: 0
-  PATCH: 1
 jobs:
-
-  build:
-
+  docker:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: update patch
-      run:  echo "NEW_PATCH=$((${{ env.NEW_PATCH }}+1))" >> $GITHUB_ENV
-    - name: Build the Docker image
-      run: |
-       docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
-       docker build --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.NEW_PATCH}} .
-    - name: Docker push
-      run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.NEW_PATCH }}
-      if: github.event_name == 'push'
-   
-       
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            name/app
+          tags: |
+            type=ref,event=main
+            type=ref,event=push
+            type=semver,pattern={{1.0.1}}
+            type=semver,pattern={{1}}.{{0}}
+      -
+        name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.sheril5/quality-trace }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
