@@ -11,16 +11,6 @@ on:
       - 'helm/**'
       - '**.md'
     branches: [ main ]
-  workflow_dispatch:
-    inputs:
-      semver:
-        description: 'Which version you want to increment? Use MAJOR, MINOR or PATCH'
-        required: true
-        default: 'PATCH'
-      label:
-        description: 'Add Labels. i.e final, alpha, rc'
-        required: false
-        default: ''
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -38,10 +28,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: update patch
-      run: |
-         echo "PATCH=$((${{ env.PATCH }}+1))" >> $GITHUB_ENV
-         envsubst "$env.PATCH"
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
     - name: Docker push
@@ -49,12 +35,18 @@ jobs:
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
       if: github.event_name == 'push'
-      
-    - uses: 'rui-costa/action-automatic-semver-releases@{latest}'
+    - name: Auto Increment Semver Action
+      uses: MCKanpolat/auto-semver-action@1.0.5
+      id: versioning
       with:
-          TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          SEMVER: '${{ github.event.inputs.PATCH }}'
-          NOTES: '${{ steps.gen-notes.outputs.notes }}'
+        releaseType: patch 
+        incrementPerCommit: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Next Release Number
+      run: echo ${{ steps.versioning.outputs.version }
+      
+    
       
       
       
