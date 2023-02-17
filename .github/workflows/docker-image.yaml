@@ -1,50 +1,49 @@
-name: Docker Image CI
+  name: ci
 
 on:
   push:
-    paths-ignore:
-      - 'charts/**'
-      - '**.md'
-    branches: [ main ]
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
   pull_request:
-    paths-ignore:
-      - 'helm/**'
-      - '**.md'
-    branches: [ main ]
-
+    branches:
+      - 'main'
 env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: sheril5/quality-trace
-  MAJOR: 1
-  MINOR: 0
-  PATCH: 1
+    IMAGE_NAME: sheril5/quality-trace
+    REGISTRY: ghcr.io
+
 jobs:
-
-  build:
-
+  docker:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
-    - name: Docker push
-      run: |
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            name/app
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{1.0.1}}
+            type=semver,pattern={{1}}.{{0}}
+      -
+        name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        run: |
         docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
-        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
-      if: github.event_name == 'push'
-      
-    - name: Auto Increment Semver Action
-      uses: MCKanpolat/auto-semver-action@1.0.5
-      id: versioning
-      with:
-        releaseType: patch 
-        incrementPerCommit: false
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-    - name: Next Release Number
-      run: echo ${{ steps.versioning.outputs.version }
-      
       
