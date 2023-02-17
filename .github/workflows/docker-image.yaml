@@ -29,7 +29,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: update patch
-      run:  echo "NEW_PATCH=$((${{ env.PATCH }}+1))" >> $GITHUB_ENV
+      run:  echo "NEW_PATCH=$((${{ env.NEW_PATCH }}+1))" >> $GITHUB_ENV
     - name: Build the Docker image
       run: |
        docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
