@@ -26,9 +26,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr/sheril5/quality-trace
+              sheril5/quality-trace
           tags: |
-             type=semver,pattern={{v1.0.1}}
+             type=semver,pattern={{version}},value=v1.0.0
            
       -
         name: Set up QEMU
