@@ -26,7 +26,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-              sheril5/quality-trace
+              ghcr.io/sheril5/quality-trace
           tags: |
              type=semver,pattern={{version}},value=1,0,1
            
