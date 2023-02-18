@@ -28,7 +28,8 @@ jobs:
           images: |
             sheril5/quality-trace
           tags: |
-            {{raw}}
+             type=ref,event=main
+             type=semver,pattern={{raw}}
            
       -
         name: Set up QEMU
