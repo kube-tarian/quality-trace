@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     tags:
-      - 'v*'
+      - 'v*.*.*'
   pull_request:
     branches:
       - 'main'
@@ -28,7 +28,7 @@ jobs:
           images: |
               sheril5/quality-trace
           tags: |
-             type=semver,pattern={{version}}
+             type=semver,pattern={{version}},value=1,0,1
            
       -
         name: Set up QEMU
@@ -50,5 +50,5 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta.outputs.v1.0.1 }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
