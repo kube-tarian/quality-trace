@@ -19,7 +19,17 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3
-  
+    
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr/sheril5/quality-tracev1.0.1
+          tags: |
+             type=semver,pattern={{raw}}
+           
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -39,7 +49,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
-          tags: sheril5/quality-trace:v1.0.1
-
-      
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
