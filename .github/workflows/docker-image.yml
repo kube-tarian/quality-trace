@@ -28,7 +28,6 @@ jobs:
           images: |
             sheril5/quality-trace
           tags: |
-             type=ref,event=main
              type=semver,pattern={{raw}}
            
       -
