@@ -28,7 +28,7 @@ jobs:
           images: |
               sheril5/quality-trace
           tags: |
-             type=semver,pattern={{version}},value=v1.0.0
+             type=semver,pattern={{version}},value=v1.0.1
            
       -
         name: Set up QEMU
