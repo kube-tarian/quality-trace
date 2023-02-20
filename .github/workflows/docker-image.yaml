@@ -1,54 +1,39 @@
-name: ci
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - 'main'
-    tags:
-      - 'v*.*.*'
+    paths-ignore:
+      - 'charts/**'
+      - '**.md'
+    branches: [ main ]
   pull_request:
-    branches:
-      - 'main'
+    paths-ignore:
+      - 'helm/**'
+      - '**.md'
+    branches: [ main ]
+
 env:
-    REGISTRY: ghcr.io
-    IMAGE: sheril5/quality-trace
-
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: sheril5/quality-trace
+  TAGS: 1.0.${{ github.run_number }}
 jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        
-      - uses: docker/setup-buildx-action@v1
-        name: Set up Docker Buildx
 
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGES }]
-          tags: |
-            type=semver,pattern={{version}},value=1.0.0
-      -
-        name: Login to DockerHub
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+         
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAGS }}
+    - name: Docker push
+      run: |
+        docker login ${{ env.REGISTRY }} -u sheril5 -p ${{ secrets.GITHUB_TOKEN }}
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAGS }}
+      if: github.event_name == 'push'
+      
+      
+      
