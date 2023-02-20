@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     tags:
-      - 'v*'
+      - 'v*.*.*'
   pull_request:
     branches:
       - 'main'
@@ -20,6 +20,11 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ghcr.io/sheril5/quality-trace
     
       -
         name: Login to GHCR
@@ -31,7 +36,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build and push
-        uses: docker/metadata-action@v4
+        uses: crazy-max/ghaction-docker-meta@v1
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
