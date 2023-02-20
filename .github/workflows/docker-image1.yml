@@ -33,7 +33,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGES }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
             tag-custom: 'v1.0.0'
             tag-semver: |
