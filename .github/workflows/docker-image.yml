@@ -26,12 +26,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: |
-              ghcr.io/sheril5/quality-trace
-          tags: |
-               ${{ env.TAGS }}
+          images: sheril5/quality-trace
          
-           
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
