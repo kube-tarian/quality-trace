@@ -28,6 +28,8 @@ jobs:
         with:
           images: |
               ghcr.io/sheril5/quality-trace
+          tags: |
+               ${{ env.TAGS }}
          
            
       -
