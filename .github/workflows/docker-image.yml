@@ -50,5 +50,5 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGES }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGES }}:${{ env.TAGS }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGES }}:${{ env.TAGS }} >> GITHUB_OUTPUT
           labels: ${{ steps.docker_meta.outputs.labels }}
