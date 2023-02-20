@@ -11,6 +11,7 @@ on:
       - 'main'
 env:
     IMAGE_NAME: sheril5/quality-trace
+    TAGS: 1.0.${{ github.run_number }}
 
 jobs:
   docker:
@@ -27,8 +28,7 @@ jobs:
         with:
           images: |
               ghcr.io/sheril5/quality-trace
-          tags: |
-             type=semver,pattern={{version}},value=1,0,1
+         
            
       -
         name: Set up QEMU
@@ -50,5 +50,5 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta.outputs.tags }}
+          tags: ghcr.io/sheril/quality-trace/${{ env.TAGS }}
           labels: ${{ steps.docker_meta.outputs.labels }}
