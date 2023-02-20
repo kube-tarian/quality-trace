@@ -48,8 +48,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          images: ${{ steps.docker_meta.outputs.images }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGES }}:${{ env.TAGS }} 
+          push: ${{ github.event_name != 'pull_request' }} 
+          images: ${{ env.REGISTRY }}/${{ env.IMAGES }}:${{ env.TAGS }} 
           labels: ${{ steps.docker_meta.outputs.labels }}
           
