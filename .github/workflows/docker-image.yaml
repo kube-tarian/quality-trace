@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     tags:
-      - 'v1.0.0'
+      - 'v*.*.*'
   pull_request:
     branches:
       - 'main'
@@ -27,8 +27,7 @@ jobs:
           images: |
             sheril5/quality-trace
           tags: |
-            type=ref,event=pr
-            type=semver,pattern={{version}}
+            type=semver,pattern={{1.0.0}}
       -
         name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -43,5 +42,5 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags_semver }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
