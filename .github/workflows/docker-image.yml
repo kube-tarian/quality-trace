@@ -10,7 +10,6 @@ on:
     branches:
       - 'main'
 env:
-    IMAGE_NAME: sheril5/quality-trace
     TAGS: 1.0.${{ github.run_number }}
 
 jobs:
