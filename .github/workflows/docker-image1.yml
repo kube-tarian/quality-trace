@@ -35,7 +35,7 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
-            tag-custom: 'v1.0.0'
+            tag-custom: latest
             tag-semver: |
                 {{raw}}
             
