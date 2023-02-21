@@ -34,8 +34,7 @@ jobs:
         with:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
-          tags: |
-            type=semver,pattern={{raw}}
+          tags: semver={{raw}}
             
       -
         name: Login to DockerHub
