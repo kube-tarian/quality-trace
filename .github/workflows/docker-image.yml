@@ -43,7 +43,7 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: | 
-             type=semver,pattern={{major}.{minor}.{patch}}
+             type=semver,pattern=${{major}.{minor}.{patch}}
                
           
       -
