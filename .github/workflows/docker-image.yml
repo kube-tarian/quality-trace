@@ -43,7 +43,7 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: | 
-              type=ref,event=tag
+              type=edge,branch=main
           
       -
         name: Build and push
