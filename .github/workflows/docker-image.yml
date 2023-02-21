@@ -38,14 +38,12 @@ jobs:
       -
         name: Docker meta
         id: meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        uses: docker/metadata-action@v4
         with:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: | 
-           tag-custom: latest
-           tag-semver: |
-               {{raw}}
+             type=semver,pattern={{major}.{minor}.{patch}}
                
           
       -
