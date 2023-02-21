@@ -41,9 +41,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE }}
-          tags: |
-               type=semver,pattern={{version}},value=0.0.1
+            ${{ env.REGISTRY }}/${{ env.IMAGE }}:'1.0.1'
+          
       -
         name: Build and push
         uses: docker/build-push-action@v4
