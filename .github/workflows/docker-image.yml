@@ -43,7 +43,8 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
-            type=semver,pattern={{version}},value=1.0.2
+               # set latest tag for default branch
+               type=raw,value=latest,enable={{main}}
       -
         name: Build and push
         uses: docker/build-push-action@v4
