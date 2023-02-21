@@ -1,4 +1,4 @@
-name: dc
+name: ci
 
 on:
   push:
@@ -14,7 +14,7 @@ env:
     IMAGE: sheril5/quality-trace
 
 jobs:
-  ci-docker:
+  docker:
     runs-on: ubuntu-latest
     steps:
       -
@@ -35,8 +35,6 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
             
       -
@@ -53,7 +51,6 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          images: ${{ env.REGISTRY }}/$ {{ env.IMAGE }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
