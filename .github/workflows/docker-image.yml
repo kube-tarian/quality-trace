@@ -43,7 +43,9 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
-             type=semver,pattern={{version}}
+               tag-custom: latest
+               tag-semver: |
+                   {{raw}}
           
       -
         name: Build and push
