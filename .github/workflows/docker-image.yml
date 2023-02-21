@@ -41,7 +41,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE }}:'1.0.1'
+            ${{ env.REGISTRY }}/${{ env.IMAGE }}
           
       -
         name: Build and push
