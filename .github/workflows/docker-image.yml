@@ -1,14 +1,19 @@
 name: ci
-
 on:
   push:
-    branches:
-      - 'main'
-    tags:
-      - 'v*'
+    paths-ignore:
+      - 'charts/**'
+      - '**.md'
+    branches: [ main ]
   pull_request:
-    branches:
-      - 'main'
+    paths-ignore:
+      - 'helm/**'
+      - '**.md'
+    branches: [ main ]
+    
+    
+    
+
 env:
     REGISTRY: ghcr.io
     IMAGE: sheril5/quality-trace
