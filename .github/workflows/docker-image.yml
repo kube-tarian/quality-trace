@@ -42,6 +42,7 @@ jobs:
         run: |
           TAG=${{ steps.tag.outputs.tag }}
           echo "TAG=$TAG" >> "$GITHUB_ENV"
+          INITIAL_VERSION=1.0.1
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
