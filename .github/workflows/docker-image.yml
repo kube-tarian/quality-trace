@@ -66,7 +66,7 @@ jobs:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: | 
-              type=semver,pattern=quality-trace-{{version}},value=${{ env.TAG }}
+              type=semver,pattern={{version}},value=${{ env.TAG }}
               type=semver,pattern={{major}}.{{minor}},value=${{ env.TAG }}
               type=semver,pattern={{major}},value=${{ env.TAG }}
           
