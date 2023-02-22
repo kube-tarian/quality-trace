@@ -1,0 +1,22 @@
+apiVersion: v1
+data:
+  password: Z2hwX3dDVEpDc0tnSEU0MVpsdmpLS25Yb2NMNDZiSUdMUjI0Zm1XRQo=
+  type: Z2l0
+  url: aHR0cHM6Ly9naXRodWIuY29tL1NoZXJpbDUvcXVhbGl0eS10cmFjZS5naXQK
+  username: c2hlcmlsNQo=
+kind: Secret
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"password":"Z2hwX3hLMkoxamFLTmhvU0pESTdad3lUQ1Uzc0JaWUdSVTI3OVJKZA==","type":"Z2l0","url":"aHR0cHM6Ly9naXRodWIuY29tL1NoZXJpbDUvZ2l0b3BzLmdpdAo=","username":"c2hlcmlsNQo="},"kind":"Secret","metadata":{"annotations":{"managed-by":"argocd.argoproj.io"},"labels":{"argocd.argoproj.io/secret-type":"repository"},"name":"repo-34963565","namespace":"argocd"},"type":"Opaque"}
+    managed-by: argocd.argoproj.io
+  creationTimestamp: "2023-01-15T12:37:42Z"
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: repo-34963565
+  namespace: argocd
+  resourceVersion: "17436290"
+  uid: 64aaae95-7006-4722-aa92-a58b71035366
+type: Opaque
+
+
