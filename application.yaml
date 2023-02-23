@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/Sheril5/quality-trace.git
+    repoURL: 'https://github.com/Sheril5/quality-trace.git'
     targetRevision: HEAD
     path: charts/quality-trace
   destination:
