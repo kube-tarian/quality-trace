@@ -3,10 +3,6 @@ kind: Application
 metadata:
   name: myapp-argo-application
   namespace: argocd
-  argocd-image-updater.argoproj.io/image-list: ghcr.io/sheril5/quality-trace
-  argocd-image-updater.argoproj.io/myapp-argo-application.update-strategy: semver:1.1.x
-  argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/gitcreds
-  argocd-image-updater.argoproj.io/git-branch: main
 
 spec:
   project: default
@@ -14,6 +10,9 @@ spec:
     repoURL: 'https://github.com/Sheril5/quality-trace.git'
     targetRevision: HEAD
     path: charts/quality-trace
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: myapp
