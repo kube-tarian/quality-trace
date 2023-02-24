@@ -20,7 +20,7 @@ spec:
       valueFiles:
       - values.yaml
     path: charts/quality-trace
-    repoURL: https://github.com/Sheril5/quality-trace.git
+    repoURL: 'https://github.com/Sheril5/quality-trace.git'
     targetRevision: HEAD
   syncPolicy:
     syncOptions:
