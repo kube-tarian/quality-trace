@@ -7,7 +7,6 @@ metadata:
   namespace: argocd
   annotations:
     argocd-image-updater.argoproj.io/image-list: ghcr.io/sheril5/quality-trace:~1.1
-    argocd-image-updater.argoproj.io/ghcr.io/sheril5/quality-trace.update-strategy: semver
     argocd-image-updater.argoproj.io/git-branch: main
 
 spec:
@@ -19,7 +18,7 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-    path: charts/quality-trace
+    path: charts/quality-trace/
     repoURL: https://github.com/Sheril5/quality-trace.git
     targetRevision: HEAD
   syncPolicy:
