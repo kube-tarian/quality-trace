@@ -7,6 +7,7 @@ metadata:
   namespace: argocd
   annotations:
     argocd-image-updater.argoproj.io/image-list: ghcr.io/Sheril5/quality-trace:~1.1
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/githubf-token
     argocd-image-updater.argoproj.io/git-branch: main
 
 spec:
@@ -15,12 +16,12 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    repoURL: https://github.com/Sheril5/quality-trace.git
+    path: charts/quality-trace
+    targetRevision: HEAD
     helm:
       valueFiles:
       - values.yaml
-    path: charts/quality-trace
-    repoURL: https://github.com/Sheril5/quality-trace.git
-    targetRevision: HEAD
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
