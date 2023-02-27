@@ -15,7 +15,7 @@ on:
 
 env:
     REGISTRY: ghcr.io
-    IMAGE: sheril5/quality-trace
+    IMAGE: sheril5/quality-trace/quality-trace
 
 jobs:
   docker:
