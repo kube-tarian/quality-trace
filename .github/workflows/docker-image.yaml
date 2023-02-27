@@ -49,9 +49,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE }}/quality-trace
+            ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tag: |
-            type=semver,pattern={{version}}
+            type=semver,pattern=quality-trace{{version}}
              
       -
         name: Build and push
