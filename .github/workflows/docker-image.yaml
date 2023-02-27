@@ -50,7 +50,8 @@ jobs:
         with:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}/quality-trace
-         
+          tag: |
+            type=semver,pattern={{version}}
              
       -
         name: Build and push
