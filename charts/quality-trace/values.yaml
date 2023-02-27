@@ -83,6 +83,6 @@ tolerations: []
 affinity: {}
 
 clickhouse:
-  url: http://chi-signoz-clickhouse-cluster-0-0.observability.svc.cluster.local:9000
+  url: http://localhost:9000
   username: admin
   password: admin
