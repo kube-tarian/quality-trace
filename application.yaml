@@ -20,8 +20,9 @@ spec:
     path: charts/quality-trace
     targetRevision: main
     helm:
-      valueFiles:
-      - values.yaml
+      values: |
+        image:
+          tag: latest
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
