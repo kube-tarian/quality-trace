@@ -15,6 +15,8 @@ CMD "l"
 CMD "p"
 CMD "a"
 CMD "L"
+CMD "h"
+CMD "y"
 
 
 
