@@ -6,7 +6,7 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: ghcr.io/Sheril5/quality-trace:~1.1
+    argocd-image-updater.argoproj.io/image-list: ghcr.io/sheril5/quality-trace:~1.1
     argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/githubf-token
     argocd-image-updater.argoproj.io/git-branch: main
 
@@ -18,7 +18,7 @@ spec:
   source:
     repoURL: https://github.com/Sheril5/quality-trace.git
     path: charts/quality-trace
-    targetRevision: HEAD
+    targetRevision: main
     helm:
       valueFiles:
       - values.yaml
