@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     tags:
-      - 'v*.*.*'
+      - 'quality-trace-*.*.*'
   pull_request:
     branches:
       - 'main'
@@ -50,8 +50,7 @@ jobs:
         with:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE }}
-          tag: |
-            type=semver,pattern=quality-trace{{version}}
+      
              
       -
         name: Build and push
