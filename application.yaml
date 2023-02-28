@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: https://github.com/Sheril5/quality-trace.git
     path: charts/quality-trace
-    targetRevision: main
+    targetRevision: HEAD
     helm:
       valueFiles:
       - values.yaml
