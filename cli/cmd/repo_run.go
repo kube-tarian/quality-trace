@@ -89,15 +89,13 @@ var repoRunCmd = &cobra.Command{
 		if err != nil {
 			logger.Println("unable to marshal the data:", err)
 		}
-		path := fmt.Sprintf("%s/clonetest/", Config.QualityTraceUrl)
-		fmt.Printf("\n path :%s", path)
+		path := fmt.Sprintf("%s/runAssertion/", Config.QualityTraceUrl)
 		resp, err := http.Post(path, "application/json",
 			bytes.NewBuffer(json_data))
 
 		if err != nil {
 			logger.Println(err)
 		}
-		fmt.Printf("\n resp :%v", resp)
 		defer resp.Body.Close()
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {

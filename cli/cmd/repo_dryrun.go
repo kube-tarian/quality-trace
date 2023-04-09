@@ -89,7 +89,7 @@ var repoDryRunCmd = &cobra.Command{
 		if err != nil {
 			logger.Println("unable to marshal the data:", err)
 		}
-		path := fmt.Sprintf("%s/clonecheck/", Config.QualityTraceUrl)
+		path := fmt.Sprintf("%s/dryRun/", Config.QualityTraceUrl)
 		resp, err := http.Post(path, "application/json",
 			bytes.NewBuffer(json_data))
 
