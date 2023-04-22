@@ -20,7 +20,7 @@ jobs:
           go-version: 1.16
       
       - name: Build my CLI for Linux
-        run: cd cli && go mod download && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o qt-linux -ldflags '-linkmode=external -extldflags "-static"' .
+        run: cd cli && go mod download && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o qt-linux main.go
       
       - name: Build my CLI for macOS
         run: cd cli && go mod download && GOOS=darwin GOARCH=amd64 go build -o qt-macos
