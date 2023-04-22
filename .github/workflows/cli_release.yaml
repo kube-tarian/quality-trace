@@ -20,13 +20,13 @@ jobs:
           go-version: 1.16
       
       - name: Build my CLI for Linux
-        run: go mod download && GOOS=linux GOARCH=amd64 go build cli/main.go -o qt-linux
+        run: cd cli && go mod download && GOOS=linux GOARCH=amd64 go build -o qt-linux
       
       - name: Build my CLI for macOS
-        run: go mod download && GOOS=darwin GOARCH=amd64 go build cli/main.go -o qt-macos
+        run: cd cli && go mod download && GOOS=darwin GOARCH=amd64 go build -o qt-macos
       
       - name: Build my CLI for Windows
-        run: go mod download && GOOS=windows GOARCH=amd64 go build cli/main.go -o qt-windows.exe
+        run: cd cli && go mod download && GOOS=windows GOARCH=amd64 go build -o qt-windows.exe
        
       - name: Get release name from tag
         id: release
