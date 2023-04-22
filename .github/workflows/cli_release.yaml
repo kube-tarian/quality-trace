@@ -1,4 +1,4 @@
-name: Build and publish gt CLI
+name: Build and publish qt CLI
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
       - name: Create release for Linux
         uses: softprops/action-gh-release@v1
         with:
-          files: qt-linux
+          files: cli/qt-linux
           tag_name: ${{ github.ref }}
           name: ${{ steps.release.outputs.name }} - Linux
           draft: false
@@ -48,7 +48,7 @@ jobs:
       - name: Create release for macOS
         uses: softprops/action-gh-release@v1
         with:
-          files: qt-macos
+          files: cli/qt-macos
           tag_name: ${{ github.ref }}
           name: ${{ steps.release.outputs.name }} - macOS
           draft: false
@@ -59,7 +59,7 @@ jobs:
       - name: Create release for Windows
         uses: softprops/action-gh-release@v1
         with:
-          files: qt-windows.exe
+          files: cli/qt-windows.exe
           tag_name: ${{ github.ref }}
           name: ${{ steps.release.outputs.name }} - Windows
           draft: false
