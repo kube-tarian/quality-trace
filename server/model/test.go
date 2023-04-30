@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Test struct {
 	Id      int     `yaml:"index,omitempty" json:"index,omitempty"`
 	Status  string  `yaml:"status,omitempty" json:"status,omitempty"`
@@ -64,4 +66,13 @@ type Assertion struct {
 type Result struct {
 	Name string `json:"AssertionName"`
 	Pass string `json:"result"`
+}
+
+type Repo struct {
+	Name      string    `ch:"name"`
+	URL       string    `ch:"url"`
+	AuthType  string    `ch:"auth_type"`
+	Token     string    `ch:"token"`
+	CreatedAt time.Time `ch:"created_at"`
+	UpdatedAt time.Time `ch:"updated_at"`
 }

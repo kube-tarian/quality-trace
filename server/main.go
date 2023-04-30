@@ -39,6 +39,8 @@ func main() {
 	// s.HandleFunc("/test/delete", r.DeleteTest)
 	s.HandleFunc("/test/{id:[0-9]+}", r.GetTest).Methods("GET")
 	s.HandleFunc("/test/{id:[0-9]+}/run", r.RunTest).Methods("POST")
+	s.HandleFunc("/runAssertion/",r.RunAssertion).Methods("POST")
+	s.HandleFunc("/dryRun/",r.DryRun).Methods("POST")
 
 	fmt.Printf("Server started at :8080...")
 	http.ListenAndServe(":8080", s)

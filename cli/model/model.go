@@ -65,3 +65,7 @@ type Assertion struct {
 	ServiceName        string `yaml:"serviceName" json:"serviceName"`
 	Name               string `yaml:"name" json:"name"`
 }
+type Env struct {
+	ClickHouseUrl string `mapstructure:"ch_conn"`
+	QualityTraceUrl string `mapstructure:"qt_conn"`
+}
