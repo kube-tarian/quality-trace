@@ -1,0 +1,43 @@
+kubectl port-forward service/signoz-clickhouse 9000:9000 -n observability
+
+kubectl port-forward service/signoz-clickhouse 8123:8123 -n observability
+
+kubectl port-forward service/sampleapp 8090:8090 -n quality
+
+
+qt repo update myrepo
+
+qt repo list
+
+qt repo drop-repo
+
+
+qt repo set --name vijeshrepo --url "git@github.com:vijeyash1/check.git" --auth-type oauth2 --token "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"
+
+
+kubectl port-forward service/sampleapp 8090:8090 -n quality
+
+kubectl port-forward service/signoz-clickhouse 9000:9000 -n observability
+
+
+go run ./server
+
+
+1. qt clickhouse --endpoint "http://localhost:9000?username=admin&password=admin"
+2. qt config --endpoint "http://localhost:8080"
+
+# this command will the repo details in the signoz clickhouse from the cli 
+3. qt repo --name vijeshrepo --url git@github.com:vijeyash1/check.git --auth-type oauth2 --token dummytoken 
+4. qt repocheck vijeshrepo
+5. qt reporun vijeshrepo
+6. qt repo drop-repo
+7. qt repo list 
+8. qt repo update vijeshrepo
+
+
+qt repo set dryrun run drop list update 
+
+
+if yaml is not there it will crate and add or if already present it will just update the data
+
+qt config --set-clickhouse <clickhouse end point> --set-server <server endpoint>

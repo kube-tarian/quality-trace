@@ -1,0 +1,17 @@
+kubectl port-forward service/quality-quality-trace 8080:80 -n quality
+qt test create -d ./cli/yaml/create.yaml
+qt test run -d ./cli/yaml/run.yaml -i 1
+
+kubectl port-forward service/signoz-clickhouse 9000:9000 -n observability
+
+
+kubectl port-forward service/signoz-clickhouse 8123:8123 -n observability
+
+
+
+kubectl port-forward service/sampleapp 8090:8090 -n quality
+
+qt config --endpoint "http://localhost:8080"
+
+
+"SELECT * FROM signoz_traces.signoz_spans"

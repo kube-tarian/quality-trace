@@ -2,7 +2,7 @@ name: POST New Book
 trigger:
   type: http
   httpRequest:
-    url: sample.dev.app
+    url: localhost:8090
     route: /books
     method: POST
     contentType: application/json

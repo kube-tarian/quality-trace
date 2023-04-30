@@ -1,0 +1,2 @@
+CH_CONN: http://localhost:9000?username=admin&password=admin
+QT_CONN: http://localhost:8080

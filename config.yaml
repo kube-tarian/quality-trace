@@ -1,0 +1,2 @@
+clickhouseConnUrl: http://localhost:9000?username=admin&password=admin
+qualitytraceConnUrl: http://localhost:8080

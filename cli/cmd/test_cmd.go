@@ -9,7 +9,7 @@ import (
 
 var runTestFileDefinition string
 var testID string
-var endPoint string
+
 // testCmd represents the test command
 var testCmd = &cobra.Command{
 	Use:   "test",

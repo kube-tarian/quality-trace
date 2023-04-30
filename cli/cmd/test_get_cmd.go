@@ -24,7 +24,7 @@ var testGetCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-
+		
 		body, err := ioutil.ReadAll(resp.Body)
 
 		if err != nil {

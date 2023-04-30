@@ -5,10 +5,9 @@ package cmd
 
 import (
 	"bytes"
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
@@ -16,47 +15,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func logFatal(args ...interface{}) {
-	log.Fatal(args)
-}
-
 var testCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "create a test",
 	Long:  "create a test using a definition",
 	Run: func(cmd *cobra.Command, args []string) {
-		db, err := sql.Open("sqlite3", "./value.db")
-		if err != nil {
-			fmt.Println("Unable to open Sqlite connection:", err)
-		}
-		defer db.Close()
-		rows, err := db.Query("SELECT name FROM endpoint")
-		if err != nil {
-			fmt.Println(err)
+		if Config.QualityTraceUrl == "" {
+			log.Println(`Please set the Quality Trace url using this command:
+			qt config --set-server <Quality-Trace-url>
+			OR
+			create $HOME/config/config.yaml and provide the details 
+			for example: 
+			CH_CONN: http://localhost:9000?username=admin&password=admin
+			QT_CONN: http://localhost:8080 `)
 			return
 		}
-		defer rows.Close()
-		var endpoint string
-		for rows.Next() {
-			err = rows.Scan(&endpoint)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-		}
-		err = rows.Err()
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		// endpoint := os.Getenv("ENDPOINT")
-		// if endpoint == "" {
-		// 	fmt.Println(`please set the endpoint
-		// 	qt config --endpoint <your end point>`)
-		// 	return
-		// }
 		fmt.Println("create called")
+		// runTestFileDefinition is populated from the persistent flags
 		data, err := ParseYaml(runTestFileDefinition)
 		if err != nil {
 			log.Println("Unable to parse the yaml file")
@@ -66,7 +41,7 @@ var testCreateCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		path := fmt.Sprintf("%s/test/", endpoint)
+		path := fmt.Sprintf("%s/test/", Config.QualityTraceUrl)
 		resp, err := http.Post(path, "application/json",
 			bytes.NewBuffer(json_data))
 
@@ -74,7 +49,7 @@ var testCreateCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Println("unable to read the response body: ", err)
 		}

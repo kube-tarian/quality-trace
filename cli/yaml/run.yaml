@@ -2,7 +2,7 @@ name: POST New Book
 trigger:
   type: http
   httpRequest:
-    url: sample.dev.app
+    url: localhost:8090
     route: /books
     method: POST
     contentType: application/json
@@ -13,12 +13,12 @@ specs:
       serviceName: goapp
       httpMethod: POST
       httpRoute: /books
-      httpHost: sample.dev.app
+      httpHost: localhost:8090
     assertions:
       responseStatusCode: 200
       httpMethod: POST
       httpRoute: /books 
-      httpHost: sample.dev.app
+      httpHost: localhost:8090
       serviceName: goapp
       name: gorm.Create
     maxRetries: 3
