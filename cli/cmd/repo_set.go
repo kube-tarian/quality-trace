@@ -7,7 +7,6 @@ import (
 	"net/url"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
 
 	clickhouse "github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/spf13/cobra"
@@ -35,8 +34,8 @@ var repoSetCmd = &cobra.Command{
 			log.Println(`Please set the Clickhouse url using this command:
 			qt config --set-clickhouse <Clickhouse-url>
 			OR
-			create $HOME/config/config.yaml and provide the details 
-			for example: 
+			create $HOME/config/config.yaml and provide the details
+			for example:
 			CH_CONN: http://localhost:9000?username=admin&password=admin
 			QT_CONN: http://localhost:8080 `)
 			return
