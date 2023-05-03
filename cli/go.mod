@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/ClickHouse/clickhouse-go/v2 v2.3.0
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
-	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.14.0
