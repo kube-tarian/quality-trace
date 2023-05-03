@@ -1,0 +1,19 @@
+spec:
+    http.flavor: "1.1"
+    http.host: localhost:8090
+    http.method: POST
+    http.request_content_length: "34"
+    http.route: /books
+    http.scheme: http
+    http.server_name: goapp
+    http.status_code: "200"
+    http.target: /books
+    http.user_agent: Go-http-client/1.1
+    library.language: go
+    net.host.name: localhost
+    net.host.port: "8090"
+    net.peer.ip: 127.0.0.1
+    net.peer.port: "39786"
+    net.transport: ip_tcp
+    service.name: goapp
+    signoz.collector.id: 2ea75c7d-640a-4e91-b7a1-cbe464e02cac
