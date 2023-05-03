@@ -115,24 +115,7 @@ var generateAssertionCmd = &cobra.Command{
 		jsonBody := strBody[lastIdx+len(statusStr)+2 : len(strBody)-2]
 		data := AssertionData{}
 		json.Unmarshal([]byte(jsonBody), &data)
-		for _, event := range data.Events {
-			assertionFields := map[int]string{}
-			assertionFieldValueMap := map[string]string{}
-			if event[4] == "/books" {
-				// assertion fields
-				for idx, v := range event[7].([]interface{}) {
-					assertionFields[idx] = v.(string)
-				}
-				// assertion values
-				for idx, v := range event[8].([]interface{}) {
-					if field, ok := assertionFields[idx]; ok {
-						assertionFieldValueMap[field] = v.(string)
-					}
-				}
-				fmt.Printf("\n assertionFieldValueMap %v", assertionFieldValueMap)
-				GenerateYaml(assertionFieldValueMap)
-			}
-		}
+		generateAssertions(data)
 	},
 }
 
@@ -143,4 +126,23 @@ type AssertionData struct {
 
 func init() {
 	repoCmd.AddCommand(generateAssertionCmd)
+}
+
+func generateAssertions(data AssertionData) {
+	assertionFieldValueMap := map[string]string{}
+	for _, event := range data.Events {
+		assertionFields := map[int]string{}
+		// assertion fields
+		for idx, v := range event[7].([]interface{}) {
+			assertionFields[idx] = v.(string)
+		}
+		// assertion values
+		for idx, v := range event[8].([]interface{}) {
+			if field, ok := assertionFields[idx]; ok {
+				assertionFieldValueMap[field] = v.(string)
+			}
+		}
+	}
+	fmt.Printf("\n assertionFieldValueMap %v", assertionFieldValueMap)
+	GenerateYaml(assertionFieldValueMap)
 }

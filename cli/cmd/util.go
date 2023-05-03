@@ -16,14 +16,11 @@ func GenerateYaml(values map[string]string) {
 	fmt.Println("\n Generating assertions yaml file")
 	wd, err := os.Getwd()
 	if err != nil {
-		log.Fatal("error occured while getting working dir")
+		log.Fatalf("error occured while getting working dir %v", err)
 	}
 	parentDir := filepath.Dir(wd)
 	assertionsDir := path.Join(parentDir, "generatedAssertionFiles")
-	err = os.Mkdir(assertionsDir, 0777)
-	if err != nil {
-		log.Fatal("error occured while making new dir")
-	}
+	os.Mkdir(assertionsDir, 0777)
 	fileName := fmt.Sprintf("assertions-%v.yaml", time.Now().Format(time.RFC822))
 	filePath := path.Join(assertionsDir, fileName)
 

@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	clickhouse "github.com/ClickHouse/clickhouse-go/v2"
@@ -101,7 +102,14 @@ var repoDryRunCmd = &cobra.Command{
 		if err != nil {
 			logger.Println("unable to read the response body: ", err)
 		}
-		fmt.Println(string(body))
+		strBody := string(body)
+		statusStr := "Fetching Data..."
+		lastIdx := strings.LastIndex(strBody, statusStr)
+		jsonBody := strBody[lastIdx+len(statusStr)+2 : len(strBody)-2]
+		data := AssertionData{}
+		json.Unmarshal([]byte(jsonBody), &data)
+		generateAssertions(data)
+		fmt.Println(strBody)
 	},
 }
 
