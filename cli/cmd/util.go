@@ -23,8 +23,12 @@ func GenerateYaml(values map[string]string) {
 	os.Mkdir(assertionsDir, 0777)
 	fileName := fmt.Sprintf("assertions-%v.yaml", time.Now().Format(time.RFC822))
 	filePath := path.Join(assertionsDir, fileName)
-
-	assertVals := map[string]map[string]string{"spec": values}
+	var assertions []string
+	for key, value := range values {
+		kv := fmt.Sprintf("%s = %s", key, value)
+		assertions = append(assertions, kv)
+	}
+	assertVals := map[string][]string{"spec": assertions}
 
 	data, err := yaml.Marshal(&assertVals)
 

@@ -1,0 +1,23 @@
+spec:
+    - db.statement = INSERT INTO `books` (`title`,`author`) VALUES ("foo","bar")
+    - http.route = /books
+    - http.status_code = 200
+    - http.user_agent = Go-http-client/1.1
+    - net.host.name = localhost
+    - http.request_content_length = 34
+    - http.method = POST
+    - db.rows_affected = 1
+    - net.peer.ip = 127.0.0.1
+    - service.name = goapp
+    - signoz.collector.id = 2ea75c7d-640a-4e91-b7a1-cbe464e02cac
+    - db.sql.table = books
+    - http.server_name = goapp
+    - library.language = go
+    - http.host = localhost:8090
+    - http.target = /books
+    - net.host.port = 8090
+    - net.peer.port = 40148
+    - http.scheme = http
+    - db.system = sqlite
+    - net.transport = ip_tcp
+    - http.flavor = 1.1
