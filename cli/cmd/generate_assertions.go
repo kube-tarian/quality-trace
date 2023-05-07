@@ -16,23 +16,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var repoDryRunCmd = &cobra.Command{
-	Use:   "dryrun",
-	Short: "runs a dryrun",
-	Long:  "runs a dryrun using the check.yaml",
+var generateAssertionCmd = &cobra.Command{
+	Use:   "assertion",
+	Short: "generates assertion",
+	Long:  "generates assertions based on traces generated on previous run",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("DRYRUN STARTED...")
-		reponame := args[0]
+		log.Println("ASSERTION GENERATION STARTED...")
 		var result []Repo
+		reponame := args[0]
 		if Config.ClickHouseUrl == "" {
 			log.Println(`Please set the Clickhouse url using this command:
 			qt config --set-clickhouse <Clickhouse-url>
 			OR
 			create $HOME/config/config.yaml and provide the details 
 			for example: 
-			CH_CONN: http://localhost:9000?username=admin&password=admin
-			QT_CONN: http://localhost:8080 `)
+			ch_conn: http://localhost:9000?username=admin&password=admin
+			qt_conn: http://localhost:8080 `)
 			return
 		}
 		// parsing the clickhouse url
@@ -40,6 +40,7 @@ var repoDryRunCmd = &cobra.Command{
 		if err != nil {
 			logger.Println(err)
 		}
+
 		options := &clickhouse.Options{
 			Addr: []string{dsnURL.Host},
 		}
@@ -54,6 +55,7 @@ var repoDryRunCmd = &cobra.Command{
 			}
 			options.Auth = auth
 		}
+
 		// creating a clickhouse connection
 		db, err := clickhouse.Open(options)
 		if err != nil {
@@ -73,7 +75,7 @@ var repoDryRunCmd = &cobra.Command{
 		defer cancel()
 		err = db.Select(ctx, &result, query, reponame)
 		if err != nil {
-			logger.Println("unable to query the database", err)
+			logger.Println("Unable to query the database", err)
 		}
 
 		if Config.QualityTraceUrl == "" {
@@ -86,21 +88,26 @@ var repoDryRunCmd = &cobra.Command{
 			QT_CONN: http://localhost:8080 `)
 			return
 		}
-		json_data, err := json.Marshal(result[0])
+
+		jsonData, err := json.Marshal(result[0])
 		if err != nil {
 			logger.Println("unable to marshal the data:", err)
 		}
+
 		path := fmt.Sprintf("%s/dryRun/", Config.QualityTraceUrl)
 		resp, err := http.Post(path, "application/json",
-			bytes.NewBuffer(json_data))
+			bytes.NewBuffer(jsonData))
 
 		if err != nil {
-			log.Fatal(err)
+			logger.Println(err)
+			return
 		}
+
 		defer resp.Body.Close()
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			logger.Println("unable to read the response body: ", err)
+			return
 		}
 		strBody := string(body)
 		statusStr := "Fetching Data..."
@@ -109,10 +116,33 @@ var repoDryRunCmd = &cobra.Command{
 		data := AssertionData{}
 		json.Unmarshal([]byte(jsonBody), &data)
 		generateAssertions(data)
-		fmt.Println(strBody)
 	},
 }
 
+type AssertionData struct {
+	Columns []string        `json:"columns"`
+	Events  [][]interface{} `json:"events"`
+}
+
 func init() {
-	repoCmd.AddCommand(repoDryRunCmd)
+	repoCmd.AddCommand(generateAssertionCmd)
+}
+
+func generateAssertions(data AssertionData) {
+	assertionFieldValueMap := map[string]string{}
+	for _, event := range data.Events {
+		assertionFields := map[int]string{}
+		// assertion fields
+		for idx, v := range event[7].([]interface{}) {
+			assertionFields[idx] = v.(string)
+		}
+		// assertion values
+		for idx, v := range event[8].([]interface{}) {
+			if field, ok := assertionFields[idx]; ok {
+				assertionFieldValueMap[field] = v.(string)
+			}
+		}
+	}
+	fmt.Printf("\n assertionFieldValueMap %v", assertionFieldValueMap)
+	GenerateYaml(assertionFieldValueMap)
 }
