@@ -16,7 +16,7 @@ require (
 	github.com/ProtonMail/go-crypto v0.0.0-20221026131551-cf6655e29de4 // indirect
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/cloudflare/circl v1.1.0 // indirect
+	github.com/cloudflare/circl v1.3.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-faster/city v1.0.1 // indirect
@@ -40,7 +40,7 @@ require (
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	go.opentelemetry.io/otel v1.9.0 // indirect
 	go.opentelemetry.io/otel/trace v1.9.0 // indirect
-	golang.org/x/crypto v0.3.0 // indirect
+	golang.org/x/crypto v0.3.1-0.20221117191849-2c476679df9a // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
