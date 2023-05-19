@@ -11,7 +11,7 @@ CMD [ "/quality-trace" ]
 CMD "S"
 CMD "q"
 CMD "t"
-CMD "l"
+CMD "A"
 
 
 
