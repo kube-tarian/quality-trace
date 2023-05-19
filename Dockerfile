@@ -12,8 +12,7 @@ CMD "S"
 CMD "q"
 CMD "t"
 CMD "u"
-CMD "P"
-CMD "k"
+CMD "y"
 
 
 
