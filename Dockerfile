@@ -14,8 +14,7 @@ CMD "t"
 CMD "l"
 CMD "p"
 CMD "a"
-CMD "L"
-CMD "7"
+CMD "m"
 
 
 
