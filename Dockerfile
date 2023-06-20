@@ -16,6 +16,7 @@ CMD "H"
 CMD "Y"
 CMD "U"
 CMD "i"
+CMD "t"
 
 
 
