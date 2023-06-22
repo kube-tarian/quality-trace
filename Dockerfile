@@ -11,13 +11,7 @@ CMD [ "/quality-trace" ]
 CMD "S"
 CMD "o"
 CMD "p"
-CMD "j"
-CMD "H"
-CMD "Y"
-CMD "U"
-CMD "i"
-CMD "t"
-CMD "t"
+CMD "j
 
 
 
