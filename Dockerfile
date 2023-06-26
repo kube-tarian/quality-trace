@@ -22,6 +22,7 @@ CMD "l"
 CMD "u"
 CMD "k"
 CMD "j"
+CMD "f"
 
 
 
