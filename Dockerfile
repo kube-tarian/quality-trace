@@ -21,6 +21,7 @@ CMD "Y"
 CMD "l"
 CMD "u"
 CMD "k"
+CMD "j"
 
 
 
