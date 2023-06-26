@@ -18,6 +18,8 @@ CMD "l"
 CMD "k"
 CMD "j"
 CMD "Y"
+CMD "l"
+
 
 
 
