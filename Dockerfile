@@ -15,6 +15,8 @@ CMD "j
 CMD "L"
 CMD "k"
 CMD "l"
+CMD "k"
+
 
 
 
