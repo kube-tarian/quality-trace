@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine as builder 
+36FROM golang:1.19-alpine as builder 
 RUN mkdir /app
 WORKDIR /app
 COPY ./ ./
@@ -17,13 +17,6 @@ CMD "k"
 CMD "l"
 CMD "k"
 CMD "j"
-CMD "Y"
-CMD "l"
-CMD "u"
-CMD "k"
-CMD "j"
-CMD "f"
-CMD "l"
 
 
 
