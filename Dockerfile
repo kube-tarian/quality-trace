@@ -8,18 +8,7 @@ FROM gcr.io/distroless/static:nonroot
 WORKDIR /
 COPY --from=builder /app/sample/test-descriptor.yaml /app/server/quality-trace ./
 CMD [ "/quality-trace" ]
-CMD "S"
-CMD "o"
-CMD "p"
-CMD "j
-CMD "L"
-CMD "k"
-CMD "l"
-CMD "k"
-CMD "j"
-CMD "l"
-CMD "l"
-CMD "k"
+CMD [ "/quality" ]
 
 
 
