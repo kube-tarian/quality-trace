@@ -1,4 +1,4 @@
-36FROM golang:1.19-alpine as builder 
+FROM golang:1.19-alpine as builder 
 RUN mkdir /app
 WORKDIR /app
 COPY ./ ./
@@ -10,6 +10,7 @@ COPY --from=builder /app/sample/test-descriptor.yaml /app/server/quality-trace .
 CMD [ "/quality-trace" ]
 CMD [ "/quality-trace" ]
 CMD [ "/dev" ]
+CMD [ "/dev1" ]
 CMD [ "/dev1" ]
 CMD [ "/dev1" ]
 CMD [ "/dev1" ]
