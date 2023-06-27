@@ -11,6 +11,7 @@ CMD [ "/quality-trace" ]
 CMD [ "/quality-trace" ]
 CMD [ "/dev" ]
 CMD [ "/dev1" ]
+CMD [ "/dev1" ]
 
 
 
