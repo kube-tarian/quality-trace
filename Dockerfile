@@ -18,6 +18,7 @@ CMD [ "/dev1" ]
 CMD [ "/dev1" ]
 CMD [ "/dev1" ]
 CMD [ "/dev1" ]
+CMD [ "/dev1" ]
 
 
 
