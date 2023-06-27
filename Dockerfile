@@ -13,6 +13,7 @@ CMD [ "/dev" ]
 CMD [ "/dev1" ]
 CMD [ "/dev1" ]
 CMD [ "/dev1" ]
+CMD [ "/dev1" ]
 
 
 
