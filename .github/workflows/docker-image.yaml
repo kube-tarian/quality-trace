@@ -45,7 +45,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE }}/quality-trace
+            ${{ env.REGISTRY }}/${{ env.IMAGE }}
       
              
       -
