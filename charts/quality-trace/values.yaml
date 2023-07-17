@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/kube-tarian/quality-trace/quality-trace
+  repository: ghcr.io/sheril5/quality-trace
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -83,6 +83,6 @@ tolerations: []
 affinity: {}
 
 clickhouse:
-  url: http://localhost:9000
+  url: http://chi-signoz-clickhouse-cluster-0-0.observability.svc.cluster.local:9000
   username: admin
   password: admin
